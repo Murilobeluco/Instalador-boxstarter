@@ -51,18 +51,22 @@ def configurarBarra():
 	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\OneDrive', winreg.HKEY_LOCAL_MACHINE, 'DisableFileSyncNGSC', winreg.REG_DWORD, 1)
 	mudarValorRegistro(r'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel', winreg.HKEY_CURRENT_USER, '{20D04FE0-3AEA-1069-A2D8-08002B30309D}', winreg.REG_DWORD, 0)
 	mudarValorRegistro(r'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu', winreg.HKEY_CURRENT_USER, '{20D04FE0-3AEA-1069-A2D8-08002B30309D}', winreg.REG_DWORD, 0)
+	mudarValorRegistro(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', winreg.HKEY_CURRENT_USER, 'TaskbarSmallIcons', winreg.REG_DWORD, 1)
 
 	executarComando(r'del "C:\Users\Public\Desktop\Boxstarter Shell.lnk"')
-
+	executarComando(r'del "C:\Users\Public\Desktop\Microsoft Edge.lnk"')
+	executarComando(r'del "%USERPROFILE%\Desktop\Microsoft Edge.lnk"')
+	
 	reiniciarExplorer()
 
-def criarTempFile(sufixo, url, caminho='', oculto=False):
+def criarTempFile(sufixo, url, caminho=None, oculto=False):
 	import tempfile, os
 
-	if not os.path.exists(caminho) and caminho:
-		os.mkdir(caminho)
-		if (oculto):
-			os.popen('attrib +h '+ str(caminho))	
+	if caminho is not None:
+		if not os.path.exists(caminho):
+			os.mkdir(caminho)
+			if (oculto):
+				os.popen('attrib +h '+ str(caminho))	
 
 	tempFile, tempPath = tempfile.mkstemp(suffix=sufixo, dir=caminho, text=True)
 
