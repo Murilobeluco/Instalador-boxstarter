@@ -49,6 +49,8 @@ def configurarBarra():
 	mudarValorRegistro(r'SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced', winreg.HKEY_CURRENT_USER, 'Start_TrackProgs', winreg.REG_DWORD, 0)
 	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\Explorer', winreg.HKEY_LOCAL_MACHINE, 'HideRecentlyAddedApps', winreg.REG_DWORD, 1)
 	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\OneDrive', winreg.HKEY_LOCAL_MACHINE, 'DisableFileSyncNGSC', winreg.REG_DWORD, 1)
+	mudarValorRegistro(r'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel', winreg.HKEY_CURRENT_USER, '{20D04FE0-3AEA-1069-A2D8-08002B30309D}', winreg.REG_DWORD, 0)
+	mudarValorRegistro(r'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\ClassicStartMenu', winreg.HKEY_CURRENT_USER, '{20D04FE0-3AEA-1069-A2D8-08002B30309D}', winreg.REG_DWORD, 0)
 
 	executarComando(r'del "C:\Users\Public\Desktop\Boxstarter Shell.lnk"')
 
