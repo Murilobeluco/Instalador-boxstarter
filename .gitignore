@@ -2,3 +2,4 @@ __pycache__/
 instalador.spec
 build/
 *.exe
+.vscode/.ropeproject/*
