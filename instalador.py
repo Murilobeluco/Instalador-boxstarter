@@ -94,7 +94,7 @@ def removerOneDrive():
 def instalar():
 	executarComando('@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString(' + "'https://boxstarter.org/bootstrapper.ps1'" + ')); get-boxstarter -Force " ')
 	time.sleep(10)
-	executarComando('@powershell -NoProfile -ExecutionPolicy bypass -command "Import-Module ''C:/ProgramData/Boxstarter/Boxstarter.Chocolatey/Boxstarter.Chocolatey.psd1''; Invoke-ChocolateyBoxstarter; Install-BoxstarterPackage -PackageName https://pastebin.com/raw/Eqp09mjj -DisableReboots"')
+	executarComando('@powershell -NoProfile -ExecutionPolicy bypass -command "Import-Module ''C:/ProgramData/Boxstarter/Boxstarter.Chocolatey/Boxstarter.Chocolatey.psd1''; Invoke-ChocolateyBoxstarter -NoPassword -DisableRestart; Install-BoxstarterPackage -PackageName https://pastebin.com/raw/Eqp09mjj -DisableReboots"')
 
 	print(Fore.GREEN + '***configurando barra de tarefas***')
 	removerApps()
