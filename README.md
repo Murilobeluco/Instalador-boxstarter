@@ -3,4 +3,4 @@ Para gerar o instalador:
 1. pip install pyinstaller
 2. pyinstaller --icon=box.ico -F instalador.py
 
-Link para o executavel final: bit.ly/instalador1
+Link para o executavel final: bit.ly/instalador1 ou http://tiny.cc/instalador
