@@ -64,20 +64,8 @@ def criarTempFile(sufixo, url, caminho=None, oculto=False):
 
 	return tempPath
 
-def limparIconesMenuIniciar():
-	caminho = criarTempFile('.xml', 'https://pastebin.com/raw/Rag0n8dQ', r'c:\layout', True)
-	
-	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\Explorer', winreg.HKEY_LOCAL_MACHINE, 'LockedStartLayout', winreg.REG_DWORD, 1)
-	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\Explorer', winreg.HKEY_LOCAL_MACHINE, 'StartLayoutFile', winreg.REG_EXPAND_SZ, str(caminho))
-	executarComando('gpupdate /force')
-	reiniciarExplorer()
-	time.sleep(30)
-	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\Explorer', winreg.HKEY_LOCAL_MACHINE, 'LockedStartLayout', winreg.REG_DWORD, 0)
-	mudarValorRegistro(r'Software\Policies\Microsoft\Windows\Explorer', winreg.HKEY_LOCAL_MACHINE, 'StartLayoutFile', winreg.REG_EXPAND_SZ, r'')
-	reiniciarExplorer()
-
 def removerApps():
-	caminho = criarTempFile('.ps1', 'https://pastebin.com/raw/xdjMmWi1')
+	caminho = criarTempFile('.ps1', 'https://pastebin.com/raw/xdjMmWi1', r'c:\layout', True)
 
 	executarComando('@powershell -NoProfile -ExecutionPolicy bypass -File ' + str(caminho))
 
@@ -103,9 +91,6 @@ def instalar():
 	time.sleep(10)
 	print(Fore.GREEN + '***Removendo OneDrive***')
 	removerOneDrive()
-	time.sleep(10)
-	print(Fore.GREEN + '***Removendo icones do menu iniciar***')
-	limparIconesMenuIniciar()
 	time.sleep(10)
 	
 if __name__ == "__main__":
