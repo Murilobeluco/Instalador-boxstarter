@@ -4,7 +4,7 @@ Set-WindowsExplorerOptions -EnableShowFileExtensions -EnableShowHiddenFilesFolde
 Set-TaskbarOptions -Combine Never
 Disable-BingSearch
 
-choco install Firefox googlechrome spotify discord.install battle.net twitch enpass.install authy-desktop megasync dropbox 7zip.install sharex  jre8 javaruntime freedownloadmanager steam geforce-experience -y --ignore-checksums
+choco install Firefox googlechrome notepadplusplus.install spotify discord.install fastcopy battle.net twitch authy-desktop megasync dropbox 7zip.install sharex  jre8 javaruntime freedownloadmanager steam geforce-experience -y --ignore-checksums
 
 Write-BoxstarterMessage 'Desativando modo de hibernacao'
 powercfg -h off
@@ -54,13 +54,6 @@ $comando = '& 7z.exe e c:\layout\sharexconfig.zip -o'+$caminho+' -y'
 Stop-Process -Name sharex | out-null
 Invoke-Expression $comando | out-null
 
-Write-BoxstarterMessage 'Configurando Utorrent'
-Stop-Process -Name uTorrent | out-null
-$caminho = $env:APPDATA +'\uTorrent\'
-$caminhoconfig = Join-Path -Path $caminho -ChildPath 'settings.dat'
-Remove-Item $caminhoconfig -Force
-Invoke-WebRequest 'https://dl.dropbox.com/s/sfmic4jeqslqrn4/settings.dat' -outFile $caminhoconfig
-
 Write-BoxStarterMessage 'Criando tarefa do horario'
 $User= $env:UserName
 $Trigger= New-ScheduledTaskTrigger -AtLogon
@@ -75,13 +68,15 @@ function CriarRegistro {
     }     
 }
 
+Write-BoxStarterMessage 'Razer Surround'
+Invoke-WebRequest 'https://d289qh4hsbjjw7.cloudfront.net/razerzone-20150303011856922/files/RazerSurroundInstaller2.0.29.20.exe' -outFile 'c:\layout\RazerSurroundInstaller2.0.29.20.exe'
+Start-Process 'c:\layout\RazerSurroundInstaller2.0.29.20.exe'
+
 function CarregarExplorer {
     Write-BoxStarterMessage 'Parando o processo Explorer.exe'
     Stop-Process -Name Explorer | out-null
     gpupdate /force
     Start-Sleep 10
-    Write-BoxStarterMessage 'Iniciando o processo Explorer.exe'
-    Start-Process -FilePath Explorer
 }
 
 Write-BoxStarterMessage 'Alterando configuracoes do registro'
@@ -93,6 +88,16 @@ CriarRegistro('HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesk
 CriarRegistro('HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer')
 CriarRegistro('HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\People')
 CriarRegistro('HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel')
+
+#configurando menu iniciar
+Write-BoxStarterMessage 'Configurando menu iniciar'
+Invoke-WebRequest 'https://pastebin.com/raw/Rag0n8dQ' -outFile 'c:\layout\layout.xml'
+Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'LockedStartLayout' -Type DWord -Value 1
+Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'StartLayoutFile' -Type ExpandString -Value 'c:\layout\layout.xml'
+CarregarExplorer 
+Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'LockedStartLayout' -Type DWord -Value 0
+Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'StartLayoutFile' -Type ExpandString -Value ''
+CarregarExplorer
 
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\Personalization' -Name NoLockScreen -Type DWord -Value 1
 Set-ItemProperty -Path 'HKLM:\Software\Policies\Microsoft\Windows\Explorer' -Name 'HideRecentlyAddedApps' -Type DWord -Value 1
@@ -115,13 +120,6 @@ Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer' -Name 'NoRecentDocsHistory' -Type DWord -Value 1
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name 'TaskbarGlomLevel' -Type Dword -Value 2
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender' -Name 'DisableAntiSpyware' -Type Dword -Value 1
-
-#configurando menu iniciar
-Write-BoxStarterMessage 'Configurando menu iniciar'
-Invoke-WebRequest 'https://pastebin.com/raw/Rag0n8dQ' -outFile 'c:\layout\layout.xml'
-Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'LockedStartLayout' -Type DWord -Value 1
-Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'StartLayoutFile' -Type ExpandString -Value 'c:\layout\layout.xml'
-CarregarExplorer 
-Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'LockedStartLayout' -Type DWord -Value 0
-Set-ItemProperty -Path 'HKLM:Software\Policies\Microsoft\Windows\Explorer' -Name 'StartLayoutFile' -Type ExpandString -Value ''
-CarregarExplorer
+Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Free Download Manager'
+Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Spotify'
+Remove-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Run' -Name 'Discord'
