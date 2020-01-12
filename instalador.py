@@ -1,8 +1,4 @@
 # Script para instalação do Chocolatey/Boxstarter
-# Para gerar o instalador:
-# pip install pyinstaller
-# pyinstaller --icon=box.ico -F instalador.py
-# Link para o executavel final: bit.ly/instalador1
 
 import winreg, os, time
 from colorama import init, deinit, Fore
